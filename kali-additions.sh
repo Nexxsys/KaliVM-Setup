@@ -178,6 +178,21 @@ eval \$(thefuck --alias FUCK)
 export FZF_DEFAULT_OPTS=\"--height 40% --layout=reverse --border --preview 'batcat --color=always {}'\"
 "
 
+# Function to add aliases to the correct shell configuration file based on the active shell
+add_aliases_to_active_shell() {
+  case "$SHELL" in
+    */zsh)
+      add_aliases ~/.zshrc
+      ;;
+    */bash)
+      add_aliases ~/.bashrc
+      ;;
+    *)
+      echo "[!] Unsupported shell: $SHELL. Please use Bash or Zsh."
+      ;;
+  esac
+}
+
 # Function to add aliases to the shell configuration file
 add_aliases() {
   local config_file="$1"
@@ -193,6 +208,9 @@ add_aliases() {
     echo "[!] Aliases already exist in $config_file"
   fi
 }
+
+# Call the function to add aliases based on the active shell
+add_aliases_to_active_shell
 
 # Function to copy scripts to /opt and make them executable
 install_scripts() {
@@ -210,12 +228,12 @@ install_scripts() {
   done
 }
 
-# Determine the shell and add aliases
-if [ -n "$BASH_VERSION" ]; then
-  add_aliases ~/.bashrc
-elif [ -n "$ZSH_VERSION" ]; then
-  add_aliases ~/.zshrc
-fi
+# # Determine the shell and add aliases
+# if [ -n "$BASH_VERSION" ]; then
+#   add_aliases ~/.bashrc
+# elif [ -n "$ZSH_VERSION" ]; then
+#   add_aliases ~/.zshrc
+# fi
 
 # Install scripts
 install_scripts
