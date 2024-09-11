@@ -30,6 +30,37 @@ pipx install oletools
 # Install Kali specific packages
 sudo apt install -y kali-tools-top10 kali-tools-passwords feroxbuster gobuster kali-linux-headless kali-tools-post-exploitation kali-tools-fuzzing kali-tools-exploitation
 
+# Clone useful GitHub repositories
+sudo git clone https://github.com/Flangvik/SharpCollection /opt/SharpCollection || true
+#sudo git clone https://github.com/danielmiessler/SecLists /opt/SecLists || true
+
+# Install tools from Gems
+sudo gem install logger stringio winrm builder erubi gssapi gyoku httpclient logging little-plugger nori rubyntlm winrm-fs evil-winrm
+
+
+# Clean up
+sudo apt autoremove -y
+
+# Create temporary build directory
+build_dir=$(mktemp -d)
+
+# Copy python script to download github releases
+cp ./githubdownload.py "$build_dir/githubdownload.py"
+
+# Download github releases
+sudo python3 "$build_dir/githubdownload.py" "jpillora/chisel" "_linux_amd64.gz" "/opt/chisel"
+sudo python3 "$build_dir/githubdownload.py" "jpillora/chisel" "_windows_amd64.gz" "/opt/chisel"
+sudo python3 "$build_dir/githubdownload.py" "carlospolop/PEASS-ng" "linpeas.sh" "~/wwwtools/peas"
+sudo python3 "$build_dir/githubdownload.py" "carlospolop/PEASS-ng" "winPEASx64.exe" "/wwwtools/peas"
+sudo python3 "$build_dir/githubdownload.py" "WithSecureLabs/chainsaw" "chainsaw_all_" "/opt/"
+#sudo python3 "$build_dir/githubdownload.py" "BloodHoundAD/BloodHound" "BloodHound-linux-x64.zip" "/opt/"
+
+# Remove temporary build directory
+sudo rm -rf "$build_dir"
+
+# update the db
+sudo updatedb 2>/dev/null
+
 # # Install Homebrew using the official installation script
 # echo "Installing Homebrew..."
 
@@ -45,6 +76,7 @@ sudo apt install -y kali-tools-top10 kali-tools-passwords feroxbuster gobuster k
 # else
 #     echo "Homebrew installation failed!"
 # fi
+
 # Path to the install_homebrew.sh script
 INSTALL_SCRIPT="./install_homebrew.sh"
 
@@ -59,7 +91,7 @@ else
     echo "install_homebrew.sh not found!"
     exit 1
 fi
-
+# Homebrew will say "installation failed" as it can't be installed with sudo
 # Update zsh shell
 # Append the command to the .zshrc file for the current user
 (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/$USER/.zshrc
@@ -70,15 +102,10 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 # install gcc
 brew install gcc lsd fzf jless powerlevel10k
 
-# update brew
-brew update
+# Add powerlevel10k to the zshrc file
+echo "source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme" >> ~/.zshrc
+source ~/.zshrc
 
-# Clone useful GitHub repositories
-sudo git clone https://github.com/Flangvik/SharpCollection /opt/SharpCollection || true
-#sudo git clone https://github.com/danielmiessler/SecLists /opt/SecLists || true
-
-# Install tools from Gems
-sudo gem install logger stringio winrm builder erubi gssapi gyoku httpclient logging little-plugger nori rubyntlm winrm-fs evil-winrm
 
 # Define the shell aliases
 shell_aliases="
@@ -113,13 +140,13 @@ alias l='lsd'
 alias l.=\"lsd -A | egrep '^\.'\"
 "
 
-# Check if the aliases already exist in .zshrc
-if ! grep -q "alias xclip" ~/.zshrc; then
-  echo "Adding aliases to ~/.zshrc"
-  echo "$shell_aliases" >> ~/.zshrc
-else
-  echo "Aliases already exist in ~/.zshrc"
-fi
+# # Check if the aliases already exist in .zshrc
+# if ! grep -q "alias xclip" ~/.zshrc; then
+#   echo "Adding aliases to ~/.zshrc"
+#   echo "$shell_aliases" >> ~/.zshrc
+# else
+#   echo "Aliases already exist in ~/.zshrc"
+# fi
 
 # Reload .zshrc to apply the changes
 echo "Reloading .zshrc"
@@ -127,33 +154,9 @@ source ~/.zshrc
 
 echo "Aliases successfully added and applied."
 
-
 # Add aliases to the appropriate shell configuration file
-if [ -n "$BASH_VERSION" ]; then
-  echo "$shell_aliases" >> ~/.bashrc
-elif [ -n "$ZSH_VERSION" ]; then
-  echo "$shell_aliases" >> ~/.zshrc
-fi
-
-# Clean up
-sudo apt autoremove -y
-
-# Create temporary build directory
-build_dir=$(mktemp -d)
-
-# Copy python script to download github releases
-cp ./githubdownload.py "$build_dir/githubdownload.py"
-
-# Download github releases
-sudo python3 "$build_dir/githubdownload.py" "jpillora/chisel" "_linux_amd64.gz" "/opt/chisel"
-sudo python3 "$build_dir/githubdownload.py" "jpillora/chisel" "_windows_amd64.gz" "/opt/chisel"
-sudo python3 "$build_dir/githubdownload.py" "carlospolop/PEASS-ng" "linpeas.sh" "~/wwwtools/peas"
-sudo python3 "$build_dir/githubdownload.py" "carlospolop/PEASS-ng" "winPEASx64.exe" "/wwwtools/peas"
-sudo python3 "$build_dir/githubdownload.py" "WithSecureLabs/chainsaw" "chainsaw_all_" "/opt/"
-#sudo python3 "$build_dir/githubdownload.py" "BloodHoundAD/BloodHound" "BloodHound-linux-x64.zip" "/opt/"
-
-# Remove temporary build directory
-sudo rm -rf "$build_dir"
-
-# update the db
-sudo updatedb 2>/dev/null
+# if [ -n "$BASH_VERSION" ]; then
+#   echo "$shell_aliases" >> ~/.bashrc
+# elif [ -n "$ZSH_VERSION" ]; then
+#   echo "$shell_aliases" >> ~/.zshrc
+# fi
