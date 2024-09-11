@@ -106,8 +106,7 @@ brew install gcc lsd fzf jless powerlevel10k
 echo "source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme" >> ~/.zshrc
 source ~/.zshrc
 
-
-# Define the shell aliases
+# Define the shell aliases and functions
 shell_aliases="
 # Clipboard alias
 alias xclip=\"xclip -selection c\"
@@ -138,25 +137,64 @@ alias lf=\"lsd -l | egrep -v '^d'\" # files only
 alias ldir=\"lsd -l | egrep '^d'\" # directories only
 alias l='lsd'
 alias l.=\"lsd -A | egrep '^\.'\"
+
+# Additional aliases
+alias pyserver='python3 -m http.server'
+alias countfiles=\"bash -c \"for t in files links directories; do echo \\\$(find . -type \\\${t:0:1} | wc -l) \\\$t; done 2> /dev/null\"\"
+alias ipview=\"netstat -anpl | grep :80 | awk {'print \$5'} | cut -d\":\" -f1 | sort | uniq -c | sort -n | sed -e 's/^ *//' -e 's/ *\$//'\"
+alias openports='netstat -nape --inet'
+alias secsearch=\"find /usr/share/seclists -type f | fzf | xclip\"
+
+# Functions
+function hex-encode()
+{
+  echo \"\$@\" | xxd -p
+}
+
+function hex-decode()
+{
+  echo \"\$@\" | xxd -p -r
+}
+
+function rot13()
+{
+  echo \"\$@\" | tr 'A-Za-z' 'N-ZA-Mn-za-m'
+}
+
+# The Fuck | https://github.com/nvbn/thefuck
+eval \$(thefuck --alias)
+eval \$(thefuck --alias FUCK)
+
+# FZF default options
+export FZF_DEFAULT_OPTS=\"--height 40% --layout=reverse --border --preview 'batcat --color=always {}'\"
 "
 
-# # Check if the aliases already exist in .zshrc
-# if ! grep -q "alias xclip" ~/.zshrc; then
-#   echo "Adding aliases to ~/.zshrc"
-#   echo "$shell_aliases" >> ~/.zshrc
-# else
-#   echo "Aliases already exist in ~/.zshrc"
-# fi
+# Function to add aliases to the shell configuration file
+add_aliases() {
+  local config_file="$1"
+  local marker="# BEGIN CUSTOM ALIASES"
+  
+  # Check if the aliases are already present
+  if ! grep -q "$marker" "$config_file"; then
+    echo "$marker" >> "$config_file"
+    echo "$shell_aliases" >> "$config_file"
+    echo "# END CUSTOM ALIASES" >> "$config_file"
+    echo "Aliases added to $config_file"
+  else
+    echo "Aliases already exist in $config_file"
+  fi
+}
 
-# Reload .zshrc to apply the changes
-echo "Reloading .zshrc"
-source ~/.zshrc
+# Determine the shell and add aliases
+if [ -n "$BASH_VERSION" ]; then
+  add_aliases ~/.bashrc
+elif [ -n "$ZSH_VERSION" ]; then
+  add_aliases ~/.zshrc
+fi
 
-echo "Aliases successfully added and applied."
+# Reload the shell configuration
+echo "Reloading shell configuration"
+source ~/.zshrc 2>/dev/null || true
+source ~/.bashrc 2>/dev/null || true
 
-# Add aliases to the appropriate shell configuration file
-# if [ -n "$BASH_VERSION" ]; then
-#   echo "$shell_aliases" >> ~/.bashrc
-# elif [ -n "$ZSH_VERSION" ]; then
-#   echo "$shell_aliases" >> ~/.zshrc
-# fi
+echo "Aliases and functions successfully added and applied."
