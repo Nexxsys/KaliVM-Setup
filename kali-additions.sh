@@ -10,7 +10,8 @@ wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | 
 echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
 
 # Install necessary packages
-sudo apt install -y pipx gdb git sublime-text apt-transport-https xclip terminator cifs-utils byobu exiftool jq ruby-full docker.io docker-compose locate tldr btop thefuck kali-tools-passwords feroxbuster gobuster kali-linux-headless
+sudo apt install -y pipx gdb git sublime-text apt-transport-https xclip terminator cifs-utils byobu exiftool jq ruby-full docker.io docker-compose locate tldr btop thefuck 
+
 # Ensure pipx path is available
 pipx ensurepath
 
@@ -27,6 +28,9 @@ pipx install git+https://github.com/fortra/impacket.git || true
 pipx install git+https://github.com/ly4k/Certipy.git || true
 # oletools
 pipx install oletools
+
+# Install Kali specific packages
+sudo apt install -y kali-tools-top10 kali-tools-passwords feroxbuster gobuster kali-linux-headless kali-tools-post-exploitation kali-tools-fuzzing kali-tools-exploitation
 
 # # Install Homebrew using the official installation script
 # echo "Installing Homebrew..."
@@ -73,7 +77,7 @@ brew update
 
 # Clone useful GitHub repositories
 sudo git clone https://github.com/Flangvik/SharpCollection /opt/SharpCollection || true
-sudo git clone https://github.com/danielmiessler/SecLists /opt/SecLists || true
+#sudo git clone https://github.com/danielmiessler/SecLists /opt/SecLists || true
 
 # Install tools from Gems
 sudo gem install logger stringio winrm builder erubi gssapi gyoku httpclient logging little-plugger nori rubyntlm winrm-fs evil-winrm
