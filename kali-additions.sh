@@ -10,7 +10,7 @@ wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | 
 echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
 
 # Install necessary packages
-sudo apt install -y pipx gdb git sublime-text apt-transport-https xclip terminator cifs-utils byobu exiftool jq ruby-full docker.io docker-compose locate tldr btop thefuck kali-tools-passwords feroxbuster gobuster
+sudo apt install -y pipx gdb git sublime-text apt-transport-https xclip terminator cifs-utils byobu exiftool jq ruby-full docker.io docker-compose locate tldr btop thefuck kali-tools-passwords feroxbuster gobuster kali-linux-headless
 # Ensure pipx path is available
 pipx ensurepath
 
