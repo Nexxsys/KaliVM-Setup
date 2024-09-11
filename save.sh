@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# This script was created based on the teachings of John Hammond
 winning_command=$(history | tail -1 | cut -b 8-)
 
 cat << EOF > ./get_flag.sh
