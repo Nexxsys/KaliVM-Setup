@@ -226,7 +226,7 @@ install_scripts() {
   
   for script in "${scripts[@]}"; do
     if [ -f "$script" ]; then
-      echo "[i] Copying $script to $dest_dir"
+      print_color "32" "[i] Copying $script to $dest_dir"
       sudo cp "$script" "$dest_dir"
       sudo chmod +x "$dest_dir/$script"
     else
