@@ -1,22 +1,29 @@
 #!/bin/bash
+# Function to print colored messages
+print_color() {
+  local color_code="$1"
+  shift
+  echo -e "\033[${color_code}m$@\033[0m"
+}
+
 # Add Sublime Text GPG key
 wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null
 
 # Add Sublime Text repository
 echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-echo "[i] Updating system"
+print_color "32" "[i] Updating system"
 # Update apt cache and upgrade packages
 sudo apt update && sudo apt dist-upgrade -y
 
-echo "[i] Installing preferred packages"
+print_color "32" "[i] Installing preferred packages"
 # Install necessary packages
 sudo apt install -y pipx gdb git sublime-text apt-transport-https xclip terminator cifs-utils byobu exiftool jq ruby-full docker.io docker-compose locate tldr btop thefuck 
 
-echo "[i] Ensuring pipx is available"
+print_color "32" "[i] Ensuring pipx is available"
 # Ensure pipx path is available
 pipx ensurepath
 
-echo "[i] Installing pipx preferred packages"
+print_color "32" "[i] Installing pipx preferred packages"
 # Install package with pipx
 # netexec
 pipx install git+https://github.com/Pennyw0rth/NetExec || true
@@ -31,16 +38,16 @@ pipx install git+https://github.com/ly4k/Certipy.git || true
 # oletools
 pipx install oletools
 
-echo "[i] Installing Kali Metapackages"
+print_color "32" "[i] Installing Kali Metapackages"
 # Install Kali specific packages
 sudo apt install -y kali-tools-top10 kali-tools-passwords feroxbuster gobuster kali-linux-headless kali-tools-post-exploitation kali-tools-fuzzing kali-tools-exploitation
 
-echo "[i] Installing Sharpcollection"
+print_color "32" "[i] Installing Sharpcollection"
 # Clone useful GitHub repositories
 sudo git clone https://github.com/Flangvik/SharpCollection /opt/SharpCollection || true
 #sudo git clone https://github.com/danielmiessler/SecLists /opt/SecLists || true
 
-echo "[i] Installing Gem Tools"
+print_color "32" "[i] Installing Gem Tools"
 # Install tools from Gems
 sudo gem install logger stringio winrm builder erubi gssapi gyoku httpclient logging little-plugger nori rubyntlm winrm-fs evil-winrm
 
@@ -50,7 +57,7 @@ sudo apt autoremove -y
 # Create temporary build directory
 build_dir=$(mktemp -d)
 
-echo "[i] Executing githubdownload.py"
+print_color "32" "[i] Executing githubdownload.py"
 # Copy python script to download github releases
 cp ./githubdownload.py "$build_dir/githubdownload.py"
 
@@ -83,19 +90,19 @@ sudo updatedb 2>/dev/null
 # else
 #     echo "Homebrew installation failed!"
 # fi
-echo "[i] Initiating Homebrew install"
+print_color "32" "[i] Initiating Homebrew install"
 # Path to the install_homebrew.sh script
 INSTALL_SCRIPT="./install_homebrew.sh"
 
 # Check if the install_homebrew.sh script exists
 if [[ -f "$INSTALL_SCRIPT" ]]; then
-    echo "[i] Found install_homebrew.sh. Running the script..."
+    print_color "32" "[i] Found install_homebrew.sh. Running the script..."
     # Make the install_homebrew.sh script executable
     chmod +x "$INSTALL_SCRIPT"
     # Run the install_homebrew.sh script
     "$INSTALL_SCRIPT"
 else
-    echo "[!] install_homebrew.sh not found!"
+    print_color "31" "[!] install_homebrew.sh not found!"
     exit 1
 fi
 # Homebrew will say "installation failed" as it can't be installed with sudo
@@ -106,7 +113,7 @@ fi
 # Run the command to set the environment variables for brew
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-echo "[i] Installing homebrew formulae"
+print_color "32" "[i] Installing homebrew formulae"
 # install gcc
 brew install gcc lsd fzf jless powerlevel10k
 
@@ -114,7 +121,7 @@ brew install gcc lsd fzf jless powerlevel10k
 echo "source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme" >> ~/.zshrc
 source ~/.zshrc
 
-echo "[i] Adding aliases to shell"
+print_color "32" "[i] Adding aliases to shell"
 # Define the shell aliases and functions
 shell_aliases="
 # Clipboard alias
@@ -188,7 +195,7 @@ add_aliases_to_active_shell() {
       add_aliases ~/.bashrc
       ;;
     *)
-      echo "[!] Unsupported shell: $SHELL. Please use Bash or Zsh."
+      print_color "31" "[!] Unsupported shell: $SHELL. Please use Bash or Zsh."
       ;;
   esac
 }
@@ -202,10 +209,10 @@ add_aliases() {
   if ! grep -q "$marker" "$config_file"; then
     echo "$marker" >> "$config_file"
     echo "$shell_aliases" >> "$config_file"
-    echo "[#] END CUSTOM ALIASES" >> "$config_file"
-    echo "[i] Aliases added to $config_file"
+    print_color "32" "[#] END CUSTOM ALIASES" >> "$config_file"
+    print_color "32" "[i] Aliases added to $config_file"
   else
-    echo "[!] Aliases already exist in $config_file"
+    print_color "33" "[-] Aliases already exist in $config_file"
   fi
 }
 
@@ -223,7 +230,7 @@ install_scripts() {
       sudo cp "$script" "$dest_dir"
       sudo chmod +x "$dest_dir/$script"
     else
-      echo "[!] Warning: $script not found"
+      print_color "31" "[!] Warning: $script not found"
     fi
   done
 }
@@ -239,9 +246,9 @@ install_scripts() {
 install_scripts
 
 # Reload the shell configuration
-echo "[i] Reloading shell configuration"
+print_color "32" "[i] Reloading shell configuration"
 source ~/.zshrc 2>/dev/null || true
 source ~/.bashrc 2>/dev/null || true
 
-echo "[#] Aliases, functions, and scripts successfully added and applied."
+print_color "32" "[#] Aliases, functions, and scripts successfully added and applied."
 
