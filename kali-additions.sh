@@ -11,13 +11,22 @@ wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | 
 
 # Add Sublime Text repository
 echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+
+# Brave Browser GPG Key
+sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg] https://brave-browser-apt-release.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+
 print_color "32" "[i] Updating system"
 # Update apt cache and upgrade packages
 sudo apt update && sudo apt dist-upgrade -y
 
 print_color "32" "[i] Installing preferred packages"
 # Install necessary packages
-sudo apt install -y pipx gdb git sublime-text apt-transport-https xclip terminator cifs-utils byobu exiftool jq ruby-full docker.io docker-compose locate tldr btop thefuck 
+sudo apt install -y pipx gdb git sublime-text apt-transport-https xclip terminator cifs-utils byobu exiftool jq ruby-full docker.io docker-compose locate tldr btop thefuck brave-browser flatpak
+
+# Add Flatpak repository
+print_color "32" "[i] Adding Flatpak repository"
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 print_color "32" "[i] Ensuring pipx is available"
 # Ensure pipx path is available
