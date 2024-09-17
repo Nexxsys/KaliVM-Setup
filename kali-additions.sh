@@ -22,7 +22,7 @@ sudo apt update && sudo apt dist-upgrade -y
 
 print_color "32" "[i] Installing preferred packages"
 # Install necessary packages
-sudo apt install -y pipx gdb git sublime-text apt-transport-https xclip terminator cifs-utils byobu exiftool jq ruby-full docker.io docker-compose locate tldr btop thefuck brave-browser flatpak 7zip
+sudo apt install -y pipx gdb git sublime-text apt-transport-https xclip terminator cifs-utils byobu exiftool jq ruby-full docker.io docker-compose locate tldr btop thefuck brave-browser flatpak 7zip rlwrap
 
 # Add Flatpak repository
 print_color "32" "[i] Adding Flatpak repository"
