@@ -46,6 +46,8 @@ pipx install git+https://github.com/fortra/impacket.git || true
 pipx install git+https://github.com/ly4k/Certipy.git || true
 # oletools
 pipx install oletools
+# pwn tools
+pipx install pwntools
 
 print_color "32" "[i] Installing Kali Metapackages"
 # Install Kali specific packages
