@@ -36,8 +36,10 @@ print_color "32" "[i] Installing pipx preferred packages"
 # Install package with pipx
 # netexec
 pipx install git+https://github.com/Pennyw0rth/NetExec || true
-# crackmapexec
-pipx install git+https://github.com/Porchetta-Industries/CrackMapExec.git || true
+# crackmapexec (don't install on Kali)
+#pipx install git+https://github.com/Porchetta-Industries/CrackMapExec.git || true
+# creds search (default creds)
+pipx install defaultcreds-cheat-sheet
 # updog
 pipx install updog || true
 # impacket
