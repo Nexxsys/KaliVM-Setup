@@ -7,4 +7,6 @@ My files and scripts for setting up my KaliVM how I like it.
 3. Execute `sudo -l` to be in sudo privilege level
 4. Run `./kali-additions.sh`
 
-TO DO: Add on mounts and include fonts?
+TO DO: Add on mounts and include fonts
+TO DO: Add jq install to the script
+TO DO: Add ncat install to the script
