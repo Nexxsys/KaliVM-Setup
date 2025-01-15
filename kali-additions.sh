@@ -6,6 +6,10 @@ print_color() {
   echo -e "\033[${color_code}m$@\033[0m"
 }
 
+# Install Oh-My-Zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sudo apt install grc
+
 # Add Sublime Text GPG key
 wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/sublimehq-archive.gpg > /dev/null
 
