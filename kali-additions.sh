@@ -201,9 +201,12 @@ eval \$(thefuck --alias FUCK)
 # FZF default options
 source <(fzf --zsh)
 export FZF_DEFAULT_OPTS=\"--height 40% --layout=reverse --border --preview 'batcat --color=always {}'\"
+# Search for seclists and output path to the clipboard
 alias secsearch=\"find /usr/share/seclists -type f | fzf | xclip\"
+# Review file contents with fuzzy finder
 alias review=\"fzf --preview 'bat --color=always {}'\"
-
+# Scan directories with fuzzy finder
+alias dscan=\"find . -type d | fzf --preview='tree -C {}'\"
 "
 
 # Function to add aliases to the correct shell configuration file based on the active shell
