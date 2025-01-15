@@ -240,6 +240,28 @@ add_aliases() {
 # Call the function to add aliases based on the active shell
 add_aliases_to_active_shell
 
+# Update the Zshrc file with the appropriate plugins
+# File path to .zshrc
+ZSHRC_FILE="$HOME/.zshrc"
+
+# Check if .zshrc exists
+if [[ ! -f "$ZSHRC_FILE" ]]; then
+  echo "Error: $ZSHRC_FILE not found."
+  exit 1
+fi
+
+# Search and replace the plugins line
+sed -i.bak 's/plugins=(git)/plugins=(git grc colorize)/' "$ZSHRC_FILE"
+
+# Check if the replacement was successful
+if grep -q "plugins=(git grc colorize)" "$ZSHRC_FILE"; then
+  echo "Successfully updated plugins in $ZSHRC_FILE."
+  echo "A backup of the original file has been saved as $ZSHRC_FILE.bak."
+else
+  echo "Error: Could not update the plugins. Please check the file manually."
+  exit 1
+fi
+
 # Function to copy scripts to /opt and make them executable
 install_scripts() {
   local scripts=("finish.sh" "removecomments.sh" "save.sh")
