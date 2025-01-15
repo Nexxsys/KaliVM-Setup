@@ -199,7 +199,11 @@ eval \$(thefuck --alias)
 eval \$(thefuck --alias FUCK)
 
 # FZF default options
+source <(fzf --zsh)
 export FZF_DEFAULT_OPTS=\"--height 40% --layout=reverse --border --preview 'batcat --color=always {}'\"
+alias secsearch=\"find /usr/share/seclists -type f | fzf | xclip\"
+alias review=\"fzf --preview 'bat --color=always {}'\"
+
 "
 
 # Function to add aliases to the correct shell configuration file based on the active shell
