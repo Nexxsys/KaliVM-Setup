@@ -11,6 +11,7 @@ My files and scripts for setting up my KaliVM how I like it.
 * TO DO: Separate out main script into task based scripts for simple maintenance
 * TO DO: Update the Homebrew Install Script
 * TO DO: Update the aliases.
+* TO DO: Update Install-Fonts Script to include global
 * TO DO: Add on mounts and include fonts
 * TO DO: Add jq install to the script
 * TO DO: Add ncat install to the script
