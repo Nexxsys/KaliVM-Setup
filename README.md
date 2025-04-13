@@ -26,56 +26,14 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme
 
 # LS aliases - Requires LSD and Nerd Fonts installed for best experience
-# Alias 'la' to run lsd -Alh, which shows hidden files
-alias la='lsd -Alh'
-
-# Alias 'ls' to run lsd -l --color=auto, which displays file lists with color
+alias la='lsd -Alh' # show hidden files
 alias ls='lsd -l --color=auto'
-
-# Alias 'la' to run lsd -a, which shows all files and directories in a long format
-alias la='lsd -a'
-
-# Alias 'lx' to run lsd -lXBh, which sorts by extension
-alias lx='lsd -lXBh'
-
-# Alias 'lk' to run lsd -lSrh, which sorts by size
-alias lk='lsd -lSrh'
-
-# Alias 'lc' to run lsd -lcrh, which sorts by change time
-alias lc='lsd -lcrh'
-
-# Alias 'lu' to run lsd -lurh, which sorts by access time
-alias lu='lsd -lurh'
-
-# Alias 'lr' to run lsd -lRh, which runs recursively
-alias lr='lsd -lRh'
-
-# Alias 'lt' to run lsd -ltrh, which shows all files and directories in a list format sorted by date
-alias lt='lsd -ltrh'
-
-# Alias 'lm' to pipe the output of lsd through 'more'
-alias lm='lsd -alh |more'
-
-# Alias 'lw' to run lsd -xAh, which displays wide listings
-alias lw='lsd -xAh'
-
-# Alias 'll' to run lsd -alFh, which displays long listings
-alias ll='lsd -alFh'
-
-# Alias 'labc' to run lsd -lap, which sorts alphabetically
-alias labc='lsd -lap'
-
-# Alias 'lf' to display files only with the command 'egrep'
-alias lf="lsd -l | egrep -v '^d'"
-
-# Alias 'ldir' to display directories only with the command 'egrep'
-alias ldir="lsd -l | egrep '^d'"
-
-# Alias 'l' to run lsd by default
+alias lr='lsd -lRh' # recursive ls
+alias lt='lsd -ltrh' # sort by date
+alias ll='lsd -alFh' # long listing format
+alias lf="lsd -l | egrep -v '^d'" # files only
+alias ldir="lsd -l | egrep '^d'" # directories only
 alias l='lsd'
-
-# Alias '.' to run lsd -A and filter out hidden files with 'egrep'
-alias l.="lsd -A | egrep '^\.'"
 
 # VPN Aliases
 
