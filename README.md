@@ -1,18 +1,27 @@
 # KaliVM-Setup
 My files and scripts for setting up my KaliVM how I like it.
 
-## Steps
+## Steps (out of date)
 1. Download the 3 files
 2. Make the follwing files executable with `chmod +x` | `githubdownload.py` , `kali-additions.sh`, and `install-homebrew.sh`
 3. Execute `sudo -l` to be in sudo privilege level
 4. Run `./kali-additions.sh`
 
+* TO DO: Update Steps
+* TO DO: Separate out main script into task based scripts for simple maintenance
+* TO DO: Update the Homebrew Install Script
+* TO DO: Update the aliases.
 * TO DO: Add on mounts and include fonts
 * TO DO: Add jq install to the script
 * TO DO: Add ncat install to the script
 
 ZSHRC Aliases
 ```bash
+export PATH="$PATH:/home/nexxsys/.local/bin"
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme
+
 # LS aliases - Requires LSD and Nerd Fonts installed for best experience
 alias la='lsd -Alh' # show hidden files
 alias ls='lsd -l --color=auto'
@@ -42,7 +51,7 @@ alias l.="lsd -A | egrep '^\.'"
 alias finish="source /opt/finish.sh"
 alias save="source /opt/save.sh"
 alias vulscanup="sudo bash /usr/share/nmap/scripts/vulscan/update.sh"
-alias removecomments "source /opt/removecomments.sh"
+# alias removecomments "source /opt/removecomments.sh"
 
 # Utility Aliases
 alias sysup="sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y"
@@ -66,6 +75,7 @@ alias ..="cd ../"
 alias ...="cd ../../"
 alias ....="cd ../../../"
 
+
 # Display IP address
 alias myip="ip a s | grep ens33"
 # alias vpnip="ip a s | grep tun0"
@@ -80,8 +90,15 @@ alias countfiles="bash -c \"for t in files links directories; do echo \\\$(find 
 alias ipview="netstat -anpl | grep :80 | awk {'print \$5'} | cut -d\":\" -f1 | sort | uniq -c | sort -n | sed -e 's/^ *//' -e 's/ *\$//'"
 # Show open ports
 alias openports='netstat -nape --inet'
-# fuzz search seclists - send finding to xclip
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+export FZF_DEFAULT_OPTS="--height 60% --layout=reverse --border --preview 'batcat --color=always {}'"
 alias secsearch="find /usr/share/seclists -type f | fzf | xclip"
+# review a file
+alias review="fzf --preview 'bat --color=always {}'"
+# scan directories with tree preview
+alias dscan="find . -type d | fzf --preview='tree -C {}'"
 
 # The Fuck | https://github.com/nvbn/thefuck
 eval $(thefuck --alias)
@@ -103,4 +120,8 @@ function rot13()
 {
   echo "$@" | tr 'A-Za-z' 'N-ZA-Mn-za-m'
 }
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 ```
