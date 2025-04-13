@@ -3,15 +3,20 @@ My files and scripts for setting up my KaliVM how I like it.
 
 ## Steps 
 1. Download the zip archive of the files
-2. Execute the main script `kali-additions.sh` by using this command `sudo bash ./kali-additions.sh`
+2. Extract the zip archive
+3. Execute stage 1 script `stage1.sh` by using this command `sudo bash ./stage1.sh`
+4. Execute stage 2 script `stage2.sh` by using this command `bash ./stage2.sh`
+5. Execute stage 3 script `stage3.sh` by using this command `bash ./stage3.sh`
+6. Execute stage 4 script `stage4.sh` by using this command `bash ./stage4.sh`
+7. Execute stage 5 script `stage5.sh` by using this command `bash ./stage5.sh`
+8. Add the aliases and zsh plugins to the existing `.zshrc` file
+   
 
-* TO DO: Separate out main script into task based scripts for simple maintenance
-* TO DO: Add on mounts and include fonts
-* TO DO: Add addition oh my zsh plugins https://gist.github.com/n1snt/454b879b8f0b7995740ae04c5fb5b7df
-* TO DO: Add Obsidian install to the script(s)
 
 ZSHRC Aliases
 ```bash
+plugins=(git grc colorize zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting zsh-autocomplete)
+
 # Created by `pipx` on 2025-04-13 14:20:37
 export PATH="$PATH:/home/nexxsys/.local/bin"
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
