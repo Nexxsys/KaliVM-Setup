@@ -9,7 +9,7 @@ My files and scripts for setting up my KaliVM how I like it.
 * TO DO: Update the Homebrew Install Script
 * TO DO: Add on mounts and include fonts
 * TO DO: Add addition oh my zsh plugins https://gist.github.com/n1snt/454b879b8f0b7995740ae04c5fb5b7df
-* * TO DO: Add Obsidian install to the script(s)
+* TO DO: Add Obsidian install to the script(s)
 
 ZSHRC Aliases
 ```bash
