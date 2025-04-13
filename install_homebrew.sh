@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# Nexxsys
 # Install Homebrew using the official installation script
 echo "Installing Homebrew..."
 
