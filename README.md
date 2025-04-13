@@ -9,11 +9,11 @@ My files and scripts for setting up my KaliVM how I like it.
 5. Execute stage 3 script `stage3.sh` by using this command `bash ./stage3.sh`
 6. Execute stage 4 script `stage4.sh` by using this command `bash ./stage4.sh`
 7. Execute stage 5 script `stage5.sh` by using this command `bash ./stage5.sh`
-8. Add the aliases and zsh plugins to the existing `.zshrc` file
+8. Add the aliases / additions and zsh plugins lines to the existing `.zshrc` file
    
 
 
-ZSHRC Aliases
+ZSHRC Additions
 ```bash
 plugins=(git grc colorize zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting zsh-autocomplete)
 
