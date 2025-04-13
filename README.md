@@ -1,16 +1,12 @@
 # KaliVM-Setup
 My files and scripts for setting up my KaliVM how I like it.
 
-## Steps (out of date)
-1. Download the 3 files
-2. Make the follwing files executable with `chmod +x` | `githubdownload.py` , `kali-additions.sh`, and `install-homebrew.sh`
-3. Execute `sudo -l` to be in sudo privilege level
-4. Run `./kali-additions.sh`
+## Steps 
+1. Download the zip archive of the files
+2. Execute the main script `kali-additions.sh` by using this command `sudo bash ./kali-additions.sh`
 
-* TO DO: Update Steps
 * TO DO: Separate out main script into task based scripts for simple maintenance
 * TO DO: Update the Homebrew Install Script
-* TO DO: Update the aliases.
 * TO DO: Update Install-Fonts Script to include global
 * TO DO: Add on mounts and include fonts
 * TO DO: Add jq install to the script
