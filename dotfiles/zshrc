@@ -175,6 +175,9 @@ alias review="fzf --preview 'bat --color=always {}'"
 # scan directories with tree preview
 alias dscan="find . -type d | fzf --preview='tree -C {}'"
 
+# Man Pages Highlighting
+export MANPAGER="sh -c 'col -bx|bat -l man -p'"
+
 # The Fuck | https://github.com/nvbn/thefuck
 eval $(thefuck --alias)
 # You can use whatever you want as an alias, like for Mondays:
