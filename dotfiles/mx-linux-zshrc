@@ -123,10 +123,23 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # FZF default options
 source <(fzf --zsh)
-#export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border --preview 'batcat --color=always {}'"
-export FZF_DEFAULT_OPTS="--height=40% --layout=reverse --info=inline --preview 'cat {}' --border --margin=1 --padding=1"
-# Review file contents with fuzzy finder
-alias review="fzf --preview 'bat --color=always {}'"
+export FZF_DEFAULT_OPTS="
+  --header='CTRL-c or ESC to quit'
+  --style=minimal 
+  --height=80% 
+  --layout=reverse 
+  --info=inline 
+  --border=rounded
+  --prompt='▶' 
+  --pointer='→' 
+  --marker='♡'
+  --border-label=Fuzzy-Finder
+  --preview 'bat --color=always --style=grid,numbers {}' 
+  --preview-window 'down,60%,border-bottom,+{2}+3/3,~3' 
+"
+# Syntax Highlighting in Man Pages using Bat
+export MANPAGER="sh -c 'col -bx|bat -l man -p'
+
 
 # Aliases
 # Clipboard alias
