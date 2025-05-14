@@ -183,8 +183,6 @@ export FZF_DEFAULT_OPTS="
   --preview 'bat --color=always --style=grid,numbers {}' 
   --preview-window 'down,60%,border-bottom,+{2}+3/3,~3' 
 "
-# Syntax Highlighting in Man Pages using Bat
-export MANPAGER="sh -c 'col -bx|bat -l man -p'"
 
 alias secsearch="find /usr/share/seclists -type f | fzf | xclip"
 # review a file
