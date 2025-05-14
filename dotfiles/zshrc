@@ -168,7 +168,21 @@ alias ....="cd ../../../"
 
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
-export FZF_DEFAULT_OPTS="--height 60% --layout=reverse --border --preview 'batcat --color=always {}'"
+# export FZF_DEFAULT_OPTS="--height 60% --layout=reverse --border --preview 'batcat --color=always {}'"
+export FZF_DEFAULT_OPTS="
+  --header='CTRL-c or ESC to quit'
+  --style=minimal 
+  --height=80% 
+  --layout=reverse 
+  --info=inline 
+  --border=rounded
+  --prompt='▶' 
+  --pointer='→' 
+  --marker='♡'
+  --border-label=Fuzzy-Finder
+  --preview 'bat --color=always --style=grid,numbers {}' 
+  --preview-window 'down,60%,border-bottom,+{2}+3/3,~3' 
+"
 alias secsearch="find /usr/share/seclists -type f | fzf | xclip"
 # review a file
 alias review="fzf --preview 'bat --color=always {}'"
