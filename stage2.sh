@@ -61,25 +61,25 @@ modify_user_file() {
 
 # INSTALL PIPX sourced tools
 # NetExec
-install_with_pipx "git+https://github.com/Pennyw0rth/NetExec" "NetExec"
+pipx install "git+https://github.com/Pennyw0rth/NetExec" "NetExec"
 
 # Default creds search
-install_with_pipx "defaultcreds-cheat-sheet" "defaultcreds-cheat-sheet"
+pipx install "defaultcreds-cheat-sheet" "defaultcreds-cheat-sheet"
 
 # updog
-install_with_pipx "updog" "updog"
+pipx install "updog" "updog"
 
 # impacket (try with system site packages if regular install fails)
-install_with_pipx "git+https://github.com/fortra/impacket.git" "impacket"
+pipx install "git+https://github.com/fortra/impacket.git" "impacket"
 
 # certipy-ad
-install_with_pipx "git+https://github.com/ly4k/Certipy.git" "certipy-ad"
+pipx install "git+https://github.com/ly4k/Certipy.git" "certipy-ad"
 
 # oletools
-install_with_pipx "oletools" "oletools"
+pipx install "oletools" "oletools"
 
 # pwntools
-install_with_pipx "pwntools" "pwntools"
+pipx install "pwntools" "pwntools"
 
 print_color "32" "[i] Stage 2 Script Completed!"
 print_color "32" "[i] Stage 3 - Now execute the stage3.sh script with the command: bash ./stage3.sh"
