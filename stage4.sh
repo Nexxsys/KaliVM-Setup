@@ -46,10 +46,10 @@ fi
 
 # Step 4: Copy fonts from the NFS share to the fonts directories
 print_color "34" "Copying fonts to user directory $USER_FONTS_DIR"
-cp -r "$MOUNT_POINT/Infosec/CTF-Linux-docs/Fonts/"* "$USER_FONTS_DIR/"
+cp -r "$MOUNT_POINT/Linux/Fonts/"* "$USER_FONTS_DIR/"
 
 print_color "34" "Copying fonts to system-wide directory $SYSTEM_FONTS_DIR"
-sudo cp -r "$MOUNT_POINT/Infosec/CTF-Linux-docs/Fonts/"* "$SYSTEM_FONTS_DIR/"
+sudo cp -r "$MOUNT_POINT/Linux/Fonts/"* "$SYSTEM_FONTS_DIR/"
 
 # Step 5: Set proper permissions for system fonts
 print_color "34" "Setting permissions for system-wide fonts"
