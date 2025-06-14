@@ -94,7 +94,7 @@ sudo apt update && sudo apt dist-upgrade -y
 
 print_color "32" "[i] Installing preferred packages"
 # Install necessary packages, including rust
-sudo apt install -y pipx gdb git sublime-text apt-transport-https xclip terminator cifs-utils byobu exiftool jq ruby-full docker.io docker-compose locate btop thefuck brave-browser flatpak 7zip rlwrap curl build-essential cargo rustc
+sudo apt install -y pipx gdb git sublime-text apt-transport-https xclip terminator cifs-utils byobu exiftool jq ruby-full docker.io docker-compose locate btop thefuck brave-browser flatpak 7zip rlwrap curl build-essential cargo rustc flameshot dirsearch
 
 # Install tldr - try multiple methods
 print_color "32" "[i] Installing tldr"
