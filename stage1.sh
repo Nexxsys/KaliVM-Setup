@@ -241,7 +241,7 @@ fi
 sudo rm -rf "$build_dir"
 
 # update the db
-sudo updatedb 2>/dev/null
+# sudo updatedb 2>/dev/null
 
 # Function to copy scripts to /opt and make them executable
 install_scripts() {
