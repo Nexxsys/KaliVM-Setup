@@ -24,7 +24,7 @@ get_real_user() {
 
 # Store the real user in a variable
 REAL_USER=$(get_real_user)
-USER_HOME=$(eval echo ~$REAL_USER)
+USER_HOME=$(getent passwd "$REAL_USER" | cut -d: -f6)
 
 # Function to safely modify user files
 modify_user_file() {
@@ -157,8 +157,8 @@ fi
 print_color "32" "[i] Installing pipx preferred packages"
 # Install packages with pipx, with proper error handling
 install_with_pipx() {
-    local package=$1
-    local package_name=${2:-$(basename "$package")}
+    local package="$1"
+    local package_name="${2:-$(basename "$package")}"
     
     print_color "32" "[i] Installing $package_name"
     if [ "$(id -u)" -eq 0 ]; then
