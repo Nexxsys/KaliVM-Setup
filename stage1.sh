@@ -8,6 +8,10 @@ print_color() {
   echo -e "\033[${color_code}m$@\033[0m"
 }
 
+# Function to check if a command exists
+command_exists() {
+  command -v "$1" >/dev/null 2>&1
+}
 
 # Determine the real user even when script is run with sudo
 get_real_user() {
@@ -260,4 +264,3 @@ install_scripts
 print_color "32" "[i] Stage 1 Script Completed!"
 print_color "32" "[i] Stage 2 - Now execute the stage2.sh script with the command: bash ./stage2.sh"
 echo -e "\033[36m  bash ./stage2.sh\033[0m"
-
