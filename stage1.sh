@@ -263,4 +263,4 @@ install_scripts() {
 install_scripts
 print_color "32" "[i] Stage 1 Script Completed!"
 print_color "32" "[i] Stage 2 - Now execute the stage2.sh script with the command: bash ./stage2.sh"
-echo -e "\033[36m  sudo sh ./stage2.sh\033[0m"
+echo -e "\033[36m  sudo bash ./stage2.sh\033[0m"
