@@ -2,21 +2,28 @@
 # STAGE 3
 # Install Homebrew using the official installation script
 
-set -e
+# Color printing function
+print_color() {
+    echo -e "\033[${1}m${2}\033[0m"
+}
 
 # Track installation status
 P10K_INSTALLED=false
 
 # Install Homebrew
 echo "Installing Homebrew..."
-if ! curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash; then
-  echo "Error installing Homebrew. Please try again."
-  exit 1
-fi
+curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash
+HOMEBREW_INSTALL_EXIT_CODE=$?
 
-# Check Homebrew installation
+# Check if Homebrew is actually working, regardless of exit code
 if command -v brew >/dev/null 2>&1; then
   echo "Homebrew installed successfully!"
+elif [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
+  echo "Homebrew installed successfully! Adding to PATH..."
+  export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+elif [ -f /opt/homebrew/bin/brew ]; then
+  echo "Homebrew installed successfully! Adding to PATH..."
+  export PATH="/opt/homebrew/bin:$PATH"
 else
   echo "Failed to install Homebrew. Please try again."
   exit 1
@@ -24,7 +31,11 @@ fi
 
 # Update Homebrew
 echo "Updating Homebrew..."
-brew update || { echo "Error updating Homebrew. Please try again."; exit 1; }
+if brew update; then
+  echo "Homebrew updated successfully!"
+else
+  echo "Warning: Homebrew update failed, but continuing..."
+fi
 
 # Install Powerlevel10k theme (if available)
 echo "Installing Powerlevel10k theme..."
@@ -51,12 +62,12 @@ else
   echo "Failed to install BAT. Skipping..."
 fi
 
-# Install packages (in a controlled order)
-echo "Installing packages:"
-if command -v gcc >/dev/null 2>&1; then
-  brew install --cask gcc lsd fzf jless powerlevel10k || { echo "Error installing packages. Please try again."; exit 1; }
+# Install packages (fixed the logic)
+echo "Installing additional packages..."
+if brew install lsd jless; then
+  echo "Additional packages installed successfully!"
 else
-  echo "Error: 'gcc' package not found. Skipping installation."
+  echo "Warning: Some additional packages failed to install. Continuing..."
 fi
 
 # Update shell configuration (if necessary)
@@ -64,11 +75,19 @@ echo "Updating shell configuration..."
 if [ -f "$HOME/.zshrc" ]; then
   if ! grep -q "source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme" "$HOME/.zshrc"; then
     echo "Adding Powerlevel10k theme to zsh configuration..."
-    if sudo bash -c "echo '' >> '$HOME/.zshrc' && echo '# Powerlevel10k theme' >> '$HOME/.zshrc' && echo 'source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme' >> '$HOME/.zshrc'"; then
+    {
+      echo ''
+      echo '# Powerlevel10k theme'
+      echo 'source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme'
+    } >> "$HOME/.zshrc"
+    
+    if [ $? -eq 0 ]; then
       echo "Powerlevel10k theme added to zsh configuration successfully!"
     else
       echo "Error adding Powerlevel10k theme to zsh configuration. Skipping..."
     fi
+  else
+    echo "Powerlevel10k theme already configured in zsh."
   fi
 fi
 
@@ -82,13 +101,8 @@ if [ "$P10K_INSTALLED" = true ]; then
   fi
 fi
 
-# Print success message (or error message if any command fails)
-if [ $? -eq 0 ]; then
-  echo "Installation complete!"
-else
-  echo "Installation failed. Please try again."
-fi
-
+# Print success message
+echo "Installation process completed!"
 print_color "32" "[i] Stage 3 Script Completed!"
 print_color "32" "[i] Stage 4 - Now execute the stage4.sh script with the command: bash ./stage4.sh"
 echo -e "\033[36m  bash ./stage4.sh\033[0m"
