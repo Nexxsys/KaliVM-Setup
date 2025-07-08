@@ -17,35 +17,28 @@ echo "Installing Homebrew..."
 # Wait a moment for installation to complete
 sleep 2
 
-# Check for Homebrew installation and set up PATH
-BREW_PATH=""
+# Set up Homebrew environment exactly as recommended by Homebrew
+echo "Setting up Homebrew environment..."
 if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
+    # Run the exact commands Homebrew suggests
+    echo >> /home/nexxsys/.zshrc
+    echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/nexxsys/.zshrc
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    
     BREW_PATH="/home/linuxbrew/.linuxbrew/bin/brew"
-    export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+    echo "Homebrew environment configured successfully!"
 elif [ -f /opt/homebrew/bin/brew ]; then
+    # macOS case
+    echo >> "$HOME/.zshrc"
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zshrc"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    
     BREW_PATH="/opt/homebrew/bin/brew"
-    export PATH="/opt/homebrew/bin:$PATH"
-elif [ -f /usr/local/bin/brew ]; then
-    BREW_PATH="/usr/local/bin/brew"
-    export PATH="/usr/local/bin:$PATH"
+    echo "Homebrew environment configured successfully!"
 else
     echo "Error: Homebrew installation not found in expected locations."
     echo "Please check if Homebrew installed correctly."
     exit 1
-fi
-
-# Set up Homebrew environment
-echo "Setting up Homebrew environment..."
-eval "$($BREW_PATH shellenv)"
-
-# Add Homebrew to shell configuration
-if [ -f "$HOME/.zshrc" ]; then
-    if ! grep -q "brew shellenv" "$HOME/.zshrc"; then
-        echo "" >> "$HOME/.zshrc"
-        echo "# Homebrew environment" >> "$HOME/.zshrc"
-        echo "eval \"\$($BREW_PATH shellenv)\"" >> "$HOME/.zshrc"
-        echo "Homebrew environment added to .zshrc"
-    fi
 fi
 
 # Verify brew command is now available
