@@ -61,4 +61,4 @@ fc-cache -f -v
 print_color "32" "All done! Fonts installed for current user and system-wide."
 print_color "32" "[i] Stage 4 Script Completed!"
 print_color "32" "[i] Stage 5 - Now execute the stage5.sh script with the command: bash ./stage5.sh"
-echo -e "\033[36m  bash ./stage5.sh\033[0m"
+echo -e "\033[36m sudo bash ./stage5.sh\033[0m"
