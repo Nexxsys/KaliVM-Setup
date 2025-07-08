@@ -259,4 +259,4 @@ fi
 print_color "32" "Shell configuration updated successfully!"
 echo ""
 print_color "32" "[i] Stage 4 - Now execute the stage4.sh script with the command: bash ./stage4.sh"
-printf "\033[36m  bash ./stage4.sh\033[0m\n"
+printf "\033[36m  sudo bash ./stage4.sh\033[0m\n"
