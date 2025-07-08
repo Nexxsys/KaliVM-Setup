@@ -4,6 +4,9 @@
 
 set -e
 
+# Track installation status
+P10K_INSTALLED=false
+
 # Install Homebrew
 echo "Installing Homebrew..."
 if ! curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | /bin/bash; then
@@ -27,13 +30,14 @@ brew update || { echo "Error updating Homebrew. Please try again."; exit 1; }
 echo "Installing Powerlevel10k theme..."
 if brew install powerlevel10k; then
   echo "Powerlevel10k theme installed successfully!"
+  P10K_INSTALLED=true
 else
   echo "Failed to install Powerlevel10k theme. Skipping..."
 fi
 
 # Install FZF
 echo "Installing FZF..."
-if brew install FZF; then
+if brew install fzf; then
   echo "FZF installed successfully!"
 else
   echo "Failed to install FZF. Skipping..."
@@ -41,7 +45,7 @@ fi
 
 # Install BAT
 echo "Installing BAT that alternative to CAT..."
-if brew install powerlevel10k; then
+if brew install bat; then
   echo "BAT installed successfully!"
 else
   echo "Failed to install BAT. Skipping..."
@@ -65,6 +69,16 @@ if [ -f "$HOME/.zshrc" ]; then
     else
       echo "Error adding Powerlevel10k theme to zsh configuration. Skipping..."
     fi
+  fi
+fi
+
+# Configure Powerlevel10k if it was installed successfully
+if [ "$P10K_INSTALLED" = true ]; then
+  echo "Configuring Powerlevel10k..."
+  if command -v p10k >/dev/null 2>&1; then
+    p10k configure
+  else
+    echo "p10k command not found. You may need to restart your shell and run 'p10k configure' manually."
   fi
 fi
 
