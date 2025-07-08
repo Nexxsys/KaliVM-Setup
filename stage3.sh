@@ -31,6 +31,22 @@ else
   echo "Failed to install Powerlevel10k theme. Skipping..."
 fi
 
+# Install FZF
+echo "Installing FZF..."
+if brew install FZF; then
+  echo "FZF installed successfully!"
+else
+  echo "Failed to install FZF. Skipping..."
+fi
+
+# Install BAT
+echo "Installing BAT that alternative to CAT..."
+if brew install powerlevel10k; then
+  echo "BAT installed successfully!"
+else
+  echo "Failed to install BAT. Skipping..."
+fi
+
 # Install packages (in a controlled order)
 echo "Installing packages:"
 if command -v gcc >/dev/null 2>&1; then
