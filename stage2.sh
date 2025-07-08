@@ -83,4 +83,4 @@ pipx install "pwntools" "pwntools"
 
 print_color "32" "[i] Stage 2 Script Completed!"
 print_color "32" "[i] Stage 3 - Now execute the stage3.sh script with the command: bash ./stage3.sh"
-echo -e "\033[36m  sh ./stage3.sh\033[0m"
+echo -e "\033[36m  sudo bash ./stage3.sh\033[0m"
