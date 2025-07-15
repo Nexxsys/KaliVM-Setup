@@ -11,7 +11,7 @@ My files and scripts for setting up my KaliVM how I like it.
 7. Execute stage 5 script `stage5.sh` by using this command `bash ./stage5.sh`
 8. Add the aliases / additions and zsh plugins lines to the existing `.zshrc` file
    
-
+**NOTE** See here to install the zsh plugins like syntax-highlighting with ohmyzsh: https://gist.github.com/n1snt/454b879b8f0b7995740ae04c5fb5b7df
 
 ZSHRC Additions
 ```bash
