@@ -30,19 +30,43 @@ source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 #export FZF_DEFAULT_OPTS="--height 60% --layout=reverse --border --preview 'batcat --color=always {}'"
+
+# FZF default options (minimal, shared across all fzf operations)
 export FZF_DEFAULT_OPTS="
-  --header='CTRL-c or ESC to quit'
-  --style=minimal 
-  --height=80% 
-  --layout=reverse 
-  --info=inline 
+  --tmux 70%
+  --style=minimal
+  --height=80%
+  --layout=reverse
+  --info=inline
   --border=rounded
-  --prompt='▶' 
-  --pointer='→' 
+  --prompt='▶ '
+  --pointer='→'
   --marker='♡'
-  --border-label=Fuzzy-Finder
-  --preview 'bat --color=always --style=grid,numbers {}' 
-  --preview-window 'down,60%,border-bottom,+{2}+3/3,~3' 
+"
+
+# CTRL+R: Command history search (no preview needed)
+export FZF_CTRL_R_OPTS="
+  --border-label=Command-History
+  --header='Search command history / CTRL-C or ESC: Quit'
+  --no-preview
+"
+
+# CTRL+T: File search with bat preview
+export FZF_CTRL_T_OPTS="
+  --border-label=File-Search
+  --header='CTRL-D: Directories / CTRL-F: Files / CTRL-C or ESC: Quit'
+  --preview 'batcat --color=always --style=grid,numbers {}'
+  --preview-window 'down,60%,border-bottom,+{2}+3/3,~3'
+  --bind 'ctrl-d:change-prompt(Directories> )+reload(fd --type d --strip-cwd-prefix)'
+  --bind 'ctrl-f:change-prompt(Files> )+reload(fd --type f --strip-cwd-prefix)'
+"
+
+# ALT+C: Directory search with tree preview
+export FZF_ALT_C_OPTS="
+  --border-label=Directory-Search
+  --header='Change directory / CTRL-C or ESC: Quit'
+  --preview 'lsd --tree --depth 2 --color=always {}'
+  --preview-window 'down,60%,border-bottom'
 "
 
 # --------------
