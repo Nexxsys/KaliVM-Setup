@@ -1,246 +1,210 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+# ================================================================
+# ZSH CONFIGURATION FILE
+# ================================================================
+# Optimized zsh configuration using Zinit plugin manager
+# Last updated: October 2025
+# ================================================================
+
+# ----------------------------------------------------------------
+# POWERLEVEL10K INSTANT PROMPT
+# ----------------------------------------------------------------
+# Enable Powerlevel10k instant prompt for faster shell startup
+# Must stay close to the top of ~/.zshrc
+# Any code that requires console input (passwords, confirmations, etc.)
+# must go above this block
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+# Suppress instant prompt warnings for cleaner startup
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
-# Path to your Oh My Zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time Oh My Zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
-
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
-# zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
-
-# Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
-
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# You can also set it to another string to have that shown instead of the default red dots.
-# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
-# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-#plugins=(git)
-
-#source $ZSH/oh-my-zsh.sh
-
-# Set the directory we want to store zinit and plugins
+# ----------------------------------------------------------------
+# ZINIT PLUGIN MANAGER SETUP
+# ----------------------------------------------------------------
+# Zinit is a flexible and fast plugin manager for zsh
+# Set Zinit installation directory using XDG base directory spec
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
-# Download Zinit, if it's not there yet
+# Auto-install Zinit if not already present
 if [ ! -d "$ZINIT_HOME" ]; then
    mkdir -p "$(dirname $ZINIT_HOME)"
    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
 
-# Source/Load zinit
+# Load Zinit plugin manager
 source "${ZINIT_HOME}/zinit.zsh"
 
-# Optional
-# Prompt Add in Powerlevel10k
+# ----------------------------------------------------------------
+# PROMPT THEME - POWERLEVEL10K
+# ----------------------------------------------------------------
+# Powerlevel10k: Fast, flexible, and feature-rich prompt theme
+# To reconfigure: run `p10k configure`
 zinit ice depth=1; zinit light romkatv/powerlevel10k
 
-# Add in zsh plugins
+# ----------------------------------------------------------------
+# ZSH PLUGINS
+# ----------------------------------------------------------------
+# Core plugins for enhanced shell functionality
+
+# Syntax highlighting: Fish-like syntax highlighting as you type
+# Highlights commands in green (valid) or red (invalid)
 zinit light zsh-users/zsh-syntax-highlighting
+
+# Auto-completions: Additional completion definitions for common commands
+# Must be loaded BEFORE compinit is called
 zinit light zsh-users/zsh-completions
+
+# Auto-suggestions: Fish-like autosuggestions based on command history
+# Suggests commands as you type (shown in gray)
 zinit light zsh-users/zsh-autosuggestions
 
-# Add in snippets
+# ----------------------------------------------------------------
+# OH-MY-ZSH PLUGIN SNIPPETS
+# ----------------------------------------------------------------
+# Load specific Oh-My-Zsh plugins without installing the full framework
+
+# Sudo: Press ESC twice to prefix current/previous command with sudo
 zinit snippet OMZP::sudo
+
+# Colorize: Syntax highlighting for file contents using chroma/pygmentize
 zinit snippet OMZP::colorize
+
+# Command-not-found: Suggests package installation for unknown commands
 zinit snippet OMZP::command-not-found
+
+# Colored-man-pages: Adds color to man pages for better readability
 zinit snippet OMZP::colored-man-pages
 
-# Load completions - MUST come after zsh-completions
-autoload -Uz compinit && compinit
-
-# Completion styling
-zstyle ':completion:*' menu select
-zstyle ':completion:*' special-dirs true
-
-# Enable menu completion and cycling
-setopt MENU_COMPLETE        # Automatically highlight first element of completion menu
-setopt AUTO_MENU           # Show completion menu on successive tab press
-setopt COMPLETE_IN_WORD    # Complete from both ends of a word
-
-
+# Configure colorize plugin to use chroma with colorful style
 export ZSH_COLORIZE_TOOL=chroma
 ZSH_COLORIZE_STYLE="colorful"
 ZSH_COLORIZE_CHROMA_FORMATTER=terminal256
 
+# ----------------------------------------------------------------
+# COMPLETION SYSTEM INITIALIZATION
+# ----------------------------------------------------------------
+# Load zsh completion system
+# CRITICAL: Must come AFTER zsh-completions plugin is loaded
+autoload -Uz compinit && compinit
+
+# Replay completion definitions from plugins
+# The -q flag suppresses output for cleaner shell startup
 zinit cdreplay -q
 
-# Keybindings
-bindkey -e  # Sets emacs mode.  instead of bindkey '^f' autosuggest-accept
-# Sets CTRL+F for accepting the suggestion
-# CTRL+B for moving back in the prompt
-# CTRL+E to move to the end of the prompt
-# CTRL+A to move to the start of the prompt
-bindkey '^p' history-search-backward
-bindkey '^n' history-search-forward
-bindkey '^[w' kill-region
+# ----------------------------------------------------------------
+# COMPLETION STYLING AND BEHAVIOR
+# ----------------------------------------------------------------
+# Configure how tab completion looks and behaves
 
-# History
-HISTSIZE=5000
-HISTFILE=~/.zsh_history
-SAVEHIST=$HISTSIZE
-HISTDUP=erase
-setopt appendhistory
-setopt sharehistory
-setopt hist_ignore_space
-setopt hist_ignore_all_dups
-setopt hist_save_no_dups
-setopt hist_ignore_dups
-setopt hist_find_no_dups
+# Enable interactive menu selection for completions
+zstyle ':completion:*' menu select
 
-# Completion styling
-# Completion styling
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' 
+# Show hidden directories (. and ..) in completions
+zstyle ':completion:*' special-dirs true
+
+# Enable case-insensitive completion matching
+# Allows typing lowercase to match uppercase names
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# Colorize completion menu using LS_COLORS
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-# REMOVED: zstyle ':completion:*' menu no
-# Optional - only if you have fzf-tab installed
+
+# FZF-tab integration: Preview directory contents when completing cd
+# Only active if fzf-tab plugin is installed
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
-# User configuration
+# Completion options
+setopt AUTO_MENU           # Show completion menu on successive tab presses
+setopt COMPLETE_IN_WORD    # Complete from both ends of a word
 
-# export MANPATH="/usr/local/man:$MANPATH"
+# ----------------------------------------------------------------
+# KEYBINDINGS
+# ----------------------------------------------------------------
+# Use Emacs-style key bindings (standard readline behavior)
+# Provides familiar shortcuts like CTRL+A, CTRL+E, CTRL+W, etc.
+bindkey -e
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+# Custom history navigation
+bindkey '^p' history-search-backward    # CTRL+P: Search backward in history
+bindkey '^n' history-search-forward     # CTRL+N: Search forward in history
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='nvim'
-# fi
+# Text manipulation
+bindkey '^[w' kill-region                # ALT+W: Kill (cut) selected region
 
-# Compilation flags
-# export ARCHFLAGS="-arch $(uname -m)"
+# Note: CTRL+F is handled by zsh-autosuggestions (accept suggestion)
+# Standard emacs bindings still available:
+#   CTRL+A: Move to start of line
+#   CTRL+E: Move to end of line
+#   CTRL+B: Move backward one character
+#   CTRL+W: Delete word before cursor
 
-# Set personal aliases, overriding those provided by Oh My Zsh libs,
-# plugins, and themes. Aliases can be placed here, though Oh My Zsh
-# users are encouraged to define aliases within a top-level file in
-# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
-# - $ZSH_CUSTOM/aliases.zsh
-# - $ZSH_CUSTOM/macos.zsh
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+# ----------------------------------------------------------------
+# HISTORY CONFIGURATION
+# ----------------------------------------------------------------
+# Configure command history behavior for better history management
 
-# Created by `pipx` on 2025-10-22 19:21:17
-export PATH="$PATH:/home/nexxsys/.local/bin"
+# History file settings
+HISTSIZE=5000                    # Number of commands to keep in memory
+HISTFILE=~/.zsh_history          # File to save command history
+SAVEHIST=$HISTSIZE               # Number of commands to save to file
+HISTDUP=erase                    # Strategy for handling duplicates
 
+# History behavior options
+setopt appendhistory             # Append to history file (don't overwrite)
+setopt sharehistory              # Share history between all sessions
+setopt hist_ignore_space         # Don't record commands starting with space
+setopt hist_ignore_all_dups      # Delete old duplicate entries when adding new ones
+setopt hist_save_no_dups         # Don't write duplicate entries to history file
+setopt hist_ignore_dups          # Don't record consecutive duplicate commands
+setopt hist_find_no_dups         # Don't display duplicates when searching history
+
+# ----------------------------------------------------------------
+# HOMEBREW SETUP
+# ----------------------------------------------------------------
+# Initialize Homebrew package manager environment
+# Sets up PATH and other environment variables for Homebrew
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-# Powerlevel10k theme
-source $(/home/linuxbrew/.linuxbrew/bin/brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
-# --------------
-# Terminal Settings
-# --------------
-# Created by `pipx` on 2025-04-13 14:20:37
-export PATH="$PATH:/home/nexxsys/.local/bin"
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-# source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme
+# ----------------------------------------------------------------
+# FZF (FUZZY FINDER) CONFIGURATION
+# ----------------------------------------------------------------
+# FZF: Command-line fuzzy finder for files, history, processes, etc.
 
-# --------------
-# FZF Settings
-# --------------
-# Set up fzf key bindings and fuzzy completion
+# Load fzf shell integration (key bindings and completions)
 source <(fzf --zsh)
-#export FZF_DEFAULT_OPTS="--height 60% --layout=reverse --border --preview 'batcat --color=always {}'"
 
-# FZF default options (minimal, shared across all fzf operations)
+# Default FZF options (applied to all fzf invocations)
 export FZF_DEFAULT_OPTS="
-  --tmux 70%
-  --style=minimal
-  --height=80%
-  --layout=reverse
-  --info=inline
-  --border=rounded
-  --prompt='▶ '
-  --pointer='→'
-  --marker='♡'
+  --tmux 70%                # Open in tmux popup (70% of window)
+  --style=minimal           # Minimal UI style
+  --height=80%              # Use 80% of terminal height
+  --layout=reverse          # Display results top-to-bottom
+  --info=inline             # Show info inline with results
+  --border=rounded          # Rounded border style
+  --prompt='▶ '             # Custom prompt character
+  --pointer='→'             # Custom pointer for selected item
+  --marker='♡'              # Custom marker for marked items
 "
 
-# CTRL+R: Command history search (no preview needed)
+# CTRL+R: Search command history
 export FZF_CTRL_R_OPTS="
   --border-label=Command-History
   --header='Search command history / CTRL-C or ESC: Quit'
-  --no-preview
+  --no-preview              # No preview needed for short history entries
 "
 
-# CTRL+T: File search with bat preview
+# CTRL+T: Search files with preview
 export FZF_CTRL_T_OPTS="
   --border-label=File-Search
-  --header='CTRL-C or ESC: Quit'
+  --header='CTRL-D: Directories / CTRL-F: Files / CTRL-C or ESC: Quit'
   --preview 'batcat --color=always --style=grid,numbers {}'
   --preview-window 'down,60%,border-bottom,+{2}+3/3,~3'
   --bind 'ctrl-d:change-prompt(Directories> )+reload(fd --type d --strip-cwd-prefix)'
   --bind 'ctrl-f:change-prompt(Files> )+reload(fd --type f --strip-cwd-prefix)'
 "
 
-# ALT+C: Directory search with tree preview
+# ALT+C: Search directories with tree preview
 export FZF_ALT_C_OPTS="
   --border-label=Directory-Search
   --header='Change directory / CTRL-C or ESC: Quit'
@@ -248,97 +212,161 @@ export FZF_ALT_C_OPTS="
   --preview-window 'down,60%,border-bottom'
 "
 
-# --------------
-# Aliases
-# --------------
-# Core Aliases
-alias da='date "+%Y-%m-%d %A %T %Z"'
-alias cp='cp -i'
-alias mv='mv -i'
-alias rm='rm -iv'
-alias mkdir='mkdir -p'
-alias ping='ping -c 10'
-alias less='less -R'
-alias cls='clear'
-alias apt-get='sudo apt-get'
-alias psa="ps auxf"
-alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
-alias ..="cd ../"
-alias ...="cd ../../"
-alias ....="cd ../../../"
+# ----------------------------------------------------------------
+# PATH MODIFICATIONS
+# ----------------------------------------------------------------
+# Add local user binaries to PATH (used by pipx, pip --user, etc.)
+export PATH="$PATH:/home/nexxsys/.local/bin"
 
+# ----------------------------------------------------------------
+# ALIASES - CORE UTILITIES
+# ----------------------------------------------------------------
+# Enhanced versions of common commands
 
-# File and Directory Management
-# LS aliases - Requires LSD and Nerd Fonts installed for best experience
-alias la='lsd -Alh' # show hidden files
-alias ls='lsd -l --color=auto'
-alias lr='lsd -lRh' # recursive ls
-alias lt='lsd -ltrh' # sort by date
-alias ll='lsd -alFh' # long listing format
-alias lf="lsd -l | egrep -v '^d'" # files only
-alias ldir="lsd -l | egrep '^d'" # directories only
-alias l='lsd'
-alias lsdtree='lsd --tree -d'
+# Date and time
+alias da='date "+%Y-%m-%d %A %T %Z"'    # Display date in detailed format
 
-# Aliases for CTF Scripts
-alias finish="source /opt/finish.sh"
-alias save="source /opt/save.sh"
-alias removecomments="source /opt/removecomments.sh"
+# Safe file operations (interactive mode to prevent accidental overwrites)
+alias cp='cp -i'                         # Confirm before overwriting
+alias mv='mv -i'                         # Confirm before overwriting
+alias rm='rm -iv'                        # Confirm and verbose for deletions
+alias mkdir='mkdir -p'                   # Create parent directories as needed
 
-# Scripting and Utilities
+# Network utilities
+alias ping='ping -c 10'                  # Limit ping to 10 packets
+
+# System utilities
+alias less='less -R'                     # Enable color output in less
+alias cls='clear'                        # DOS-style clear screen
+alias apt-get='sudo apt-get'             # Always use sudo with apt-get
+
+# Process management
+alias psa="ps auxf"                      # Show all processes in tree format
+alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"  # Search processes
+
+# Quick directory navigation
+alias ..="cd ../"                        # Go up one directory
+alias ...="cd ../../"                    # Go up two directories
+alias ....="cd ../../../"                # Go up three directories
+
+# ----------------------------------------------------------------
+# ALIASES - FILE AND DIRECTORY LISTING
+# ----------------------------------------------------------------
+# Modern file listing using LSD (LSDeluxe)
+# Requires: lsd and a Nerd Font for icons
+
+alias ls='lsd -l --color=auto'           # Default listing with colors
+alias l='lsd'                            # Short alias
+alias la='lsd -Alh'                      # Show all files including hidden
+alias ll='lsd -alFh'                     # Long format with all details
+alias lt='lsd -ltrh'                     # Sort by modification time (newest last)
+alias lr='lsd -lRh'                      # Recursive listing
+alias lf="lsd -l | egrep -v '^d'"        # Files only (exclude directories)
+alias ldir="lsd -l | egrep '^d'"         # Directories only
+alias lsdtree='lsd --tree -d'            # Tree view of directories
+
+# ----------------------------------------------------------------
+# ALIASES - CTF AND SECURITY TOOLS
+# ----------------------------------------------------------------
+# Custom scripts for Capture The Flag competitions
+
+alias finish="source /opt/finish.sh"                # Finalize CTF challenge
+alias save="source /opt/save.sh"                    # Save CTF progress
+alias removecomments="source /opt/removecomments.sh"  # Strip comments from files
+
+# ----------------------------------------------------------------
+# ALIASES - SYSTEM MAINTENANCE
+# ----------------------------------------------------------------
+# System update and maintenance shortcuts
+
+# Complete system update (unattended mode)
 alias sysup="sudo NEEDRESTART_MODE=a apt update && sudo apt dist-upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y"
-alias xclip="xclip -selection c"
-alias chmox="chmod"
-alias pyserver='python3 -m http.server'
-alias p="ps aux | grep "
-alias topcpu="/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"
-# Count all files (recursively) in the current folder
+
+# ----------------------------------------------------------------
+# ALIASES - PRODUCTIVITY AND UTILITIES
+# ----------------------------------------------------------------
+# Useful shortcuts for common tasks
+
+# Clipboard management
+alias xclip="xclip -selection c"         # Copy to clipboard (X11)
+
+# Common typos
+alias chmox="chmod"                       # Fix common typo
+
+# Quick web server for current directory
+alias pyserver='python3 -m http.server'   # Start HTTP server on port 8000
+
+# Process utilities
+alias p="ps aux | grep "                  # Quick process search
+alias topcpu="/bin/ps -eo pcpu,pid,user,args | sort -k 1 -r | head -10"  # Top CPU consumers
+
+# File and directory statistics
 alias countfiles="bash -c 'for t in files links directories; do echo \$(find . -type \${t:0:1} | wc -l) \$t; done 2> /dev/null'"
-# Show current network connections to the server
-# alias ipview="netstat -anpl | grep :80 | awk {'print \$5'} | cut -d ':' -f1 | sort | uniq -c | sort -n | sed -e 's/^ *//' -e 's/ *\$//'"
-# Show open ports
-alias openports='netstat -nape --inet'
-# Vulnerability Scanning with nmap https://scipag.github.io/vulscan/
-# alias vulscanup="sudo bash /usr/share/nmap/scripts/vulscan/update.sh"
-# alias to show the date
+
+# Network monitoring
+alias openports='netstat -nape --inet'    # Show open network ports
+
+# Security lists search (requires SecLists installed)
 alias secsearch="find /usr/share/seclists -type f | fzf | xclip"
-# review a file
+
+# File review with preview
 alias review="fzf --preview 'bat --color=always {}'"
-# scan directories with tree preview
+
+# Directory scanning with tree preview
 alias dscan="find . -type d | fzf --preview='tree -C {}'"
 
-# Miscellaneous
-# The Fuck | https://github.com/nvbn/thefuck
-eval $(thefuck --alias)
-# You can use whatever you want as an alias, like for Mondays:
-eval $(thefuck --alias FUCK)
+# ----------------------------------------------------------------
+# ALIASES - VPN CONNECTIONS
+# ----------------------------------------------------------------
+# Quick VPN connection shortcuts for security platforms
 
-# VPN Aliases
-# alias thmvpn="sudo openvpn ~/thmvpn/Nexxsys.ovpn"
-# alias htbvpn="sudo openvpn ~/vpns/lab_Nexxsys.ovpn"
+# HackTheBox Academy VPN
 alias htbacad="sudo openvpn ~/vpns/academy-regular.ovpn"
-# alias htbstart="sudo openvpn ~/htbvpn/starting_point_Nexxsys.ovpn"
 
-# --------------
-# Functions
-# --------------
-function hex-encode()
-{
+# Commented out VPN profiles (uncomment as needed):
+# alias thmvpn="sudo openvpn ~/thmvpn/Nexxsys.ovpn"     # TryHackMe
+# alias htbvpn="sudo openvpn ~/vpns/lab_Nexxsys.ovpn"   # HackTheBox Lab
+# alias htbstart="sudo openvpn ~/htbvpn/starting_point_Nexxsys.ovpn"  # HTB Starting Point
+
+# ----------------------------------------------------------------
+# UTILITY FUNCTIONS
+# ----------------------------------------------------------------
+# Custom shell functions for encoding/decoding
+
+# Hexadecimal encoding
+# Usage: hex-encode "text to encode"
+function hex-encode() {
   echo "$@" | xxd -p
 }
 
-function hex-decode()
-{
+# Hexadecimal decoding
+# Usage: hex-decode "68656c6c6f"
+function hex-decode() {
   echo "$@" | xxd -p -r
 }
 
-function rot13()
-{
+# ROT13 cipher (Caesar cipher with 13 character rotation)
+# Usage: rot13 "text to rotate"
+function rot13() {
   echo "$@" | tr 'A-Za-z' 'N-ZA-Mn-za-m'
 }
 
-# --------------
-# Powerlevel10k Configuration
-# --------------
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# ----------------------------------------------------------------
+# THEFUCK INTEGRATION
+# ----------------------------------------------------------------
+# TheFuck: Corrects your previous console command
+# Usage: Type 'fuck' after a command error to get correction suggestions
+
+eval $(thefuck --alias)           # Standard alias: fuck
+eval $(thefuck --alias FUCK)      # Alternative alias: FUCK
+
+# ----------------------------------------------------------------
+# POWERLEVEL10K THEME CONFIGURATION
+# ----------------------------------------------------------------
+# Load Powerlevel10k configuration file
+# To customize prompt: run `p10k configure`
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# ================================================================
+# END OF CONFIGURATION
+# ================================================================
