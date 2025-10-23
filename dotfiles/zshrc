@@ -77,9 +77,86 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git grc colorize zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting colored-man-pages zsh-autocomplete)
-export ZSH_COLORIZE_TOOL=pygment
-source $ZSH/oh-my-zsh.sh
+#plugins=(git)
+
+#source $ZSH/oh-my-zsh.sh
+
+# Set the directory we want to store zinit and plugins
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+
+# Download Zinit, if it's not there yet
+if [ ! -d "$ZINIT_HOME" ]; then
+   mkdir -p "$(dirname $ZINIT_HOME)"
+   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
+
+# Source/Load zinit
+source "${ZINIT_HOME}/zinit.zsh"
+
+# Optional
+# Prompt Add in Powerlevel10k
+zinit ice depth=1; zinit light romkatv/powerlevel10k
+
+# Add in zsh plugins
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+
+# Add in snippets
+zinit snippet OMZP::sudo
+zinit snippet OMZP::colorize
+zinit snippet OMZP::command-not-found
+zinit snippet OMZP::colored-man-pages
+
+# Load completions - MUST come after zsh-completions
+autoload -Uz compinit && compinit
+
+# Completion styling
+zstyle ':completion:*' menu select
+zstyle ':completion:*' special-dirs true
+
+# Enable menu completion and cycling
+setopt MENU_COMPLETE        # Automatically highlight first element of completion menu
+setopt AUTO_MENU           # Show completion menu on successive tab press
+setopt COMPLETE_IN_WORD    # Complete from both ends of a word
+
+
+export ZSH_COLORIZE_TOOL=chroma
+ZSH_COLORIZE_STYLE="colorful"
+ZSH_COLORIZE_CHROMA_FORMATTER=terminal256
+
+zinit cdreplay -q
+
+# Keybindings
+bindkey -e  # Sets emacs mode.  instead of bindkey '^f' autosuggest-accept
+# Sets CTRL+F for accepting the suggestion
+# CTRL+B for moving back in the prompt
+# CTRL+E to move to the end of the prompt
+# CTRL+A to move to the start of the prompt
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+bindkey '^[w' kill-region
+
+# History
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
+# Completion styling
+# Completion styling
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}' 
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+# REMOVED: zstyle ':completion:*' menu no
+# Optional - only if you have fzf-tab installed
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
 # User configuration
 
@@ -110,6 +187,13 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# Created by `pipx` on 2025-10-22 19:21:17
+export PATH="$PATH:/home/nexxsys/.local/bin"
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+# Powerlevel10k theme
+source $(/home/linuxbrew/.linuxbrew/bin/brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
 # --------------
 # Terminal Settings
 # --------------
@@ -117,7 +201,7 @@ source $ZSH/oh-my-zsh.sh
 export PATH="$PATH:/home/nexxsys/.local/bin"
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme
+# source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme
 
 # --------------
 # FZF Settings
@@ -125,19 +209,43 @@ source /home/linuxbrew/.linuxbrew/share/powerlevel10k/powerlevel10k.zsh-theme
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 #export FZF_DEFAULT_OPTS="--height 60% --layout=reverse --border --preview 'batcat --color=always {}'"
+
+# FZF default options (minimal, shared across all fzf operations)
 export FZF_DEFAULT_OPTS="
-  --header='CTRL-c or ESC to quit'
-  --style=minimal 
-  --height=80% 
-  --layout=reverse 
-  --info=inline 
+  --tmux 70%
+  --style=minimal
+  --height=80%
+  --layout=reverse
+  --info=inline
   --border=rounded
-  --prompt='▶' 
-  --pointer='→' 
+  --prompt='▶ '
+  --pointer='→'
   --marker='♡'
-  --border-label=Fuzzy-Finder
-  --preview 'bat --color=always --style=grid,numbers {}' 
-  --preview-window 'down,60%,border-bottom,+{2}+3/3,~3' 
+"
+
+# CTRL+R: Command history search (no preview needed)
+export FZF_CTRL_R_OPTS="
+  --border-label=Command-History
+  --header='Search command history / CTRL-C or ESC: Quit'
+  --no-preview
+"
+
+# CTRL+T: File search with bat preview
+export FZF_CTRL_T_OPTS="
+  --border-label=File-Search
+  --header='CTRL-C or ESC: Quit'
+  --preview 'batcat --color=always --style=grid,numbers {}'
+  --preview-window 'down,60%,border-bottom,+{2}+3/3,~3'
+  --bind 'ctrl-d:change-prompt(Directories> )+reload(fd --type d --strip-cwd-prefix)'
+  --bind 'ctrl-f:change-prompt(Files> )+reload(fd --type f --strip-cwd-prefix)'
+"
+
+# ALT+C: Directory search with tree preview
+export FZF_ALT_C_OPTS="
+  --border-label=Directory-Search
+  --header='Change directory / CTRL-C or ESC: Quit'
+  --preview 'lsd --tree --depth 2 --color=always {}'
+  --preview-window 'down,60%,border-bottom'
 "
 
 # --------------
